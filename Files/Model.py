@@ -1,10 +1,9 @@
 import tensorflow as tf
 import argparse
-
+import os
 
 def save_model(model):
     # serialize the model to disk
     print("[INFO] saving mask detector model...")
-    tf.keras.models.save_model(model, save_format="h5")
-
+    model.save('/models/model', save_format="h5")
 

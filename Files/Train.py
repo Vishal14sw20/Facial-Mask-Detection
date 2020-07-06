@@ -16,11 +16,11 @@ def training(model, trainX, testX, trainY, testY, hyper_params):
         fill_mode="nearest")
 
     print("[INFO] compiling model...")
-    opt = tf.keras.optimizers.Adam(learning_rate=lr, decay=epochs)
+    opt = tf.keras.optimizers.Adam(learning_rate=lr, decay=lr/epochs)
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=["accuracy"])
 
     print("[INFO] training head...")
-    model.fit(
+    H=model.fit(
         aug.flow(trainX, trainY, batch_size=batch_size),
         steps_per_epoch=len(trainX) // batch_size,
         validation_data=(testX, testY),

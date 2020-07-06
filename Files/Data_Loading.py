@@ -22,7 +22,7 @@ def load_images_and_labels(images_path):
     for imagePath in imagePaths:
         # get class label from folder name
         label = imagePath.split(os.path.sep)[-2]
-        # our model requrie 224
+        # our model requrie (224,224)
         image = load_img(imagePath, target_size=(224, 224))
         image = img_to_array(image)
         #
