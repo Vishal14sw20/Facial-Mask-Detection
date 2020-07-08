@@ -9,4 +9,3 @@ def evalute_report(model,testX,testY,hyper_param):
     predIdxs = np.argmax(predIdxs, axis=1)
     # show a nicely formatted classification report
     print(classification_report(testY.argmax(axis=1), predIdxs))
-    #print(classification_report(testY.argmax(axis=1), predIdxs,target_names=lb.classes_))
