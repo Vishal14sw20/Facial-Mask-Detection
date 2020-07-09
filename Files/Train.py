@@ -27,5 +27,7 @@ def training(model, trainX, testX, trainY, testY, hyper_params):
         validation_steps=len(testX) // batch_size,
         epochs=epochs)
 
+    model.save('classifier_model.h5')
+    print('[INFO] Model Saved to Disk !')
 
     return model

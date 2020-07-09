@@ -13,7 +13,6 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 def load_images_and_labels(images_path):
     print("[INFO] Loading Images......")
-    # imagePaths = list(paths.list_images(args["dataset"]))
     imagePaths = list(paths.list_images(images_path))
 
     data = []
@@ -43,7 +42,7 @@ def load_images_and_labels(images_path):
     # partition the data into training and testing splits
     (trainX, testX, trainY, testY) = train_test_split(data, labels,
                                                       test_size=0.20, stratify=labels, random_state=42)
-    print("Loaded")
+    print("[INFO] Loaded")
     return trainX, testX, trainY, testY
 
 
