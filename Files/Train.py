@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow import keras
 
 
 def training(model, trainX, testX, trainY, testY, hyper_params):

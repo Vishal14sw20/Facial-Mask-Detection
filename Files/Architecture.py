@@ -10,6 +10,8 @@ from imutils.video import VideoStream
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 
+import os
+
 def fine_tune_architecture():
     baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
@@ -18,6 +20,7 @@ def fine_tune_architecture():
     headModel = layers.Flatten(name="flatten")(headModel)
     headModel = layers.Dense(128, activation="relu")(headModel)
     headModel = layers.Dropout(0.5)(headModel)
+    #headModel = layers.Dense(1)(headModel)
     headModel = layers.Dense(2, activation="softmax")(headModel)
 
     model = tf.keras.Model(inputs=baseModel.input, outputs=headModel)
@@ -32,14 +35,21 @@ def fine_tune_architecture():
 
 def face_detection():
     print("[INFO] loading face detector model...")
-    prototxtPath = '/home/vishal/MyProject/Facial-Mask-Detection/face_detector/deploy.prototxt'
-    weightsPath = '/home/vishal/MyProject/Facial-Mask-Detection/face_detector/weights.caffemodel'
+    fileDir = os.path.dirname(os.path.abspath(__file__))
+    parentDir = os.path.dirname(fileDir)
+    prototxtPath = os.path.join(parentDir, 'face_detector\deploy.prototxt')
+    weightsPath = os.path.join(parentDir, 'face_detector\weights.caffemodel')
+
+    classifier_path = os.path.join(parentDir, 'classifier_model.h5')
+
+    #prototxtPath = '../face_detector/deploy.prototxt'
+    #weightsPath = '../face_detector/weights.caffemodel'
 
     faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
     # load the face mask detector model from disk
     print("[INFO] loading face mask detector model...")
-    maskNet = tf.keras.models.load_model('/home/vishal/MyProject/Facial-Mask-Detection/classifier_model.h5')
+    maskNet = tf.keras.models.load_model(classifier_path)
 
     print("[INFO] starting video stream...")
     vs = VideoStream(src=0).start()
@@ -158,4 +168,4 @@ def detect_and_predict_mask(frame,faceNet,maskNet):
     return (locs, preds)
 
 
-face_detection()
+#face_detection()
