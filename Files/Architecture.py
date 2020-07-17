@@ -37,8 +37,8 @@ def face_detection():
     print("[INFO] loading face detector model...")
     fileDir = os.path.dirname(os.path.abspath(__file__))
     parentDir = os.path.dirname(fileDir)
-    prototxtPath = os.path.join(parentDir, 'face_detector\deploy.prototxt')
-    weightsPath = os.path.join(parentDir, 'face_detector\weights.caffemodel')
+    prototxtPath = os.path.join(parentDir, 'face_detector', 'deploy.prototxt')
+    weightsPath = os.path.join(parentDir, 'face_detector','weights.caffemodel')
 
     classifier_path = os.path.join(parentDir, 'classifier_model.h5')
 
@@ -168,4 +168,4 @@ def detect_and_predict_mask(frame,faceNet,maskNet):
     return (locs, preds)
 
 
-#face_detection()
+face_detection()
