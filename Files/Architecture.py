@@ -169,7 +169,6 @@ def getModels():
 def pass_img_through_model(input, faceNet):
     # grab the dimensions of the frame and then construct a blob
     # from it
-
     # need original size for output image
     (h, w) = input.shape[:2]
 
