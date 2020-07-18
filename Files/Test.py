@@ -4,6 +4,7 @@ from sklearn.metrics import roc_curve
 from sklearn import metrics
 from sklearn.metrics import plot_roc_curve
 import matplotlib.pyplot as plt
+from Files import Architecture
 
 
 def evalute_report(model,testX,testY,hyper_param):
@@ -41,3 +42,8 @@ def evalute_report(model,testX,testY,hyper_param):
     legend = plt.legend(loc = 'lower right')
     plt.setp(legend.get_texts(), color='black')
     plt.show()
+
+
+def show_img(imgPath):
+    img = Architecture.mask_detection_on_image(imgPath)
+    plt.imshow(img)

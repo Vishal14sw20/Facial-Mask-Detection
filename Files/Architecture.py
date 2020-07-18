@@ -21,15 +21,12 @@ def fine_tune_architecture():
     headModel = layers.Flatten(name="flatten")(headModel)
     headModel = layers.Dense(128, activation="relu")(headModel)
     headModel = layers.Dropout(0.5)(headModel)
-    # headModel = layers.Dense(1)(headModel)
     headModel = layers.Dense(2, activation="softmax")(headModel)
 
     model = tf.keras.Model(inputs=baseModel.input, outputs=headModel)
 
-    # loop over all layers in the base model and freeze them so they will
-    # *not* be updated during the first training process
-    for layer in baseModel.layers:
-        layer.trainable = False
+    # freeze the layers of baseModel
+    baseModel.trainable = False
 
     return model
 
@@ -92,7 +89,7 @@ def mask_detection_on_image(input_img):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
             cv2.rectangle(image, (startX, startY), (endX, endY), color, 2)
             im_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # show the output image
+    # return the output image
     return im_rgb
     #cv2.imshow("Output", image)
     #cv2.waitKey(0)
@@ -109,7 +106,7 @@ def mask_detection_video():
         # grab the frame from the threaded video stream and resize it
         # to have a maximum width of 400 pixels
         frame = vs.read()
-        frame = imutils.resize(frame, width=400)
+        frame = imutils.resize(frame, width=800)
 
         # detect faces in the frame and determine if they are wearing a
         # face mask or not
@@ -150,7 +147,7 @@ def mask_detection_video():
 
 
 def getModels():
-    print("[INFO] loading face detector model...")
+    #print("[INFO] loading face detector model...")
     fileDir = os.path.dirname(os.path.abspath(__file__))
     parentDir = os.path.dirname(fileDir)
     prototxtPath = os.path.join(parentDir, 'face_detector', 'deploy.prototxt')
@@ -161,7 +158,7 @@ def getModels():
     faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
     # load the face mask detector model from disk
-    print("[INFO] loading face mask detector model...")
+    #print("[INFO] loading face mask detector model...")
     maskNet = tf.keras.models.load_model(classifier_path)
     return faceNet, maskNet
 
