@@ -7,6 +7,8 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
 
+from keras.utils import np_utils
+
 # its according to specific architecture
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
@@ -30,19 +32,26 @@ def load_images_and_labels(images_path):
         data.append(image)
         labels.append(label)
 
+
     # convert the data and labels to NumPy arrays
     data = np.array(data, dtype="float32")
     labels = np.array(labels)
 
+
     # perform one-hot encoding on the labels
+
+
+
+
     lb = LabelBinarizer()
     labels = lb.fit_transform(labels)
-    labels = tf.keras.utils.to_categorical(labels)
 
-    # partition the data into training and testing splits
+    labels = tf.keras.utils.to_categorical(labels, 2)
+
     (trainX, testX, trainY, testY) = train_test_split(data, labels,
                                                       test_size=0.20, stratify=labels, random_state=42)
     print("[INFO] Loaded")
+
     return trainX, testX, trainY, testY
 
 
