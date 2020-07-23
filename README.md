@@ -2,6 +2,8 @@
 
 Instructions to run the Demo File:
 
+BASE : GOOGLE DRIVE MOUNT STEP = Run this block when working on google colab and want to mount the directory from gdrive
+
 1) Block-1 : Import Necessary Modules = Run the cell to load the necessary modules required for functioning of this Demo file
 2) Block-2 : Import all Module .py files = Run this cell to load the user made module .py files which contains all the necessary functions used for detection
 3) Block-3 : Dataset Path and Hyper Parameters = Run this cell to set dataset path and hyper parameters
