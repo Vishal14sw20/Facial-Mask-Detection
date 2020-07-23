@@ -9,10 +9,11 @@ import imutils
 from imutils.video import VideoStream
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
-
 import os
 
 
+#This function creates a model using the base_model from MobileNetV2 architecture using pretrained weights from the "imagenet" dataset
+#and then using our own head_model and finally returns the model
 def fine_tune_architecture():
     baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
@@ -31,6 +32,9 @@ def fine_tune_architecture():
     return model
 
 
+#This function takes an image as input and passes it through faceNet first to extract a face to predict depening on the confidence score threshold
+#and then passing that face through the model to predict if a mask is observed or not and then return the final result with the face detection outline drawn
+#with green or red color and the confidence score mentioned as well
 def mask_detection_on_image(input_img):
     # get Models
     faceNet, maskNet = getModels()
@@ -94,7 +98,9 @@ def mask_detection_on_image(input_img):
     #cv2.imshow("Output", image)
     #cv2.waitKey(0)
 
-
+#This function extract an image from the input webcam stream and passes it through faceNet first to extract a face to predict depening on the confidence score threshold
+#and then passing that face through the model to predict if a mask is observed or not and then return the final result with the face detection outline drawn
+#with green or red color and the confidence score mentioned as well. All this is done for each frame of the webcam video until "q" is pressed to stop the webcam stream
 def mask_detection_video():
     faceNet, maskNet = getModels()
     print("[INFO] starting video stream...")
@@ -145,7 +151,7 @@ def mask_detection_video():
     cv2.destroyAllWindows()
     vs.stop()
 
-
+#This function is used to load the saved model for face mask detection(our model) as well as the model for face detection(faceNet) and returns it
 def getModels():
     #print("[INFO] loading face detector model...")
     fileDir = os.path.dirname(os.path.abspath(__file__))
@@ -162,7 +168,7 @@ def getModels():
     maskNet = tf.keras.models.load_model(classifier_path)
     return faceNet, maskNet
 
-
+#This function takes the input image and passes it through faceNet model to detect faces and return the detections and its height and width
 def pass_img_through_model(input, faceNet):
     # grab the dimensions of the frame and then construct a blob
     # from it
@@ -179,7 +185,7 @@ def pass_img_through_model(input, faceNet):
 
     return detections, h, w
 
-
+#This function takes an input image and detects the faces present in it and their locations as well and return them
 def detect_and_predict_mask(frame, faceNet, maskNet):
     # get detections and original hight width of frame
     detections, h, w = pass_img_through_model(frame, faceNet)

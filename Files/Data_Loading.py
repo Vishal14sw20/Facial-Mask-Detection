@@ -6,13 +6,10 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
-
-from keras.utils import np_utils
-
-# its according to specific architecture
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 
+#This function loads the images and pre-process them as well using their path provided as arguement and return the Test and Train set respectively
 def load_images_and_labels(images_path):
     print("[INFO] Loading Images......")
     imagePaths = list(paths.list_images(images_path))
